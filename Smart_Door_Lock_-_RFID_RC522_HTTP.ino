@@ -4,11 +4,11 @@
 #include <SPI.h>                                        //memasukan SPI bus library
 #include <MFRC522.h>                                    //memasukan RFID reader library
 
-#define ACCESSKEY "d787952530126057:f148cd2deef06033"   //user access key pada antares
-#define WIFISSID "DLINK"                                //ssid wifi
-#define PASSWORD "RTYUIOP999"                           //pass wifi 
-#define projectName "smartdoorlock-RFID-HTTP"           //project name pada application antares
-#define deviceName "frontdoor"                          //device name pada project name antares
+#define ACCESSKEY "ACCESS KEY KALIAN"                   //user access key pada antares
+#define WIFISSID "NAMA WIFI KALIAN"                     //ssid wifi
+#define PASSWORD "PASSWORD WIFI KALIAN"                 //pass wifi 
+#define projectName "PROJECT NAME KALIAN"               //project name pada application antares
+#define deviceName "DEVICE NAME KALIAN"                 //device name pada project name antares
 #define RST_PIN 0                                       //pin RST pada RFID terhubung dengan pin D0
 #define SS_PIN 2                                        //pin SS pada RFID terhubung dengan pin D2
 
