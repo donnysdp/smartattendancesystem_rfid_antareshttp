@@ -4,15 +4,18 @@
 #include <SPI.h>                                        //memasukan SPI bus library
 #include <MFRC522.h>                                    //memasukan RFID reader library
 
-#define ACCESSKEY "ACCESS KEY KALIAN"                   //user access key pada antares
-#define WIFISSID "NAMA WIFI KALIAN"                     //ssid wifi
-#define PASSWORD "PASSWORD WIFI KALIAN"                 //pass wifi 
-#define projectName "PROJECT NAME KALIAN"               //project name pada application antares
-#define deviceName "DEVICE NAME KALIAN"                 //device name pada project name antares
-#define RST_PIN 0                                       //pin RST pada RFID terhubung dengan pin D0
-#define SS_PIN 2                                        //pin SS pada RFID terhubung dengan pin D2
+#define ACCESSKEY "d787952530126057:f148cd2deef06033"   //user access key pada antares
+#define WIFISSID "DLINK"                                //ssid wifi
+#define PASSWORD "RTYUIOP999"                           //pass wifi 
+#define projectName "smartattendancesystem-RFID-HTTP"   //project name pada application antares
+#define deviceName "frontdoor"                          //device name pada project name antares
+#define RST_PIN 0                                       //pin RST pada RFID terhubung dengan pin D3
+#define SS_PIN 2                                        //pin SS pada RFID terhubung dengan pin D4
 
-String MasterTag = "4D7162";                            //simpan UID yang akan di accept dalam variabel MasterTag
+//4D7162 : UID KTP
+//A712147: UID KTM
+
+String MasterTag = "A712147";                            //simpan UID yang akan di accept dalam variabel MasterTag
 String tagID = "";                                      //inisialisasi variabel untuk menyimpan UID yang didapat setelah proses tapping RFID Card/Keychain
 MFRC522 mfrc522(SS_PIN, RST_PIN);                       //inisialisasi pembaca objek RFID
 
@@ -33,25 +36,25 @@ void loop()
     Serial.println("Waiting RFID Card...");             //menampilkan tulisan di Serial Monitor
     delay(1500);                                        //delay 1500ms
 
-  //////////////PROGRAM PENGGUNAAN RFID//////////////
+  //////////////PROGRAM UTAMA//////////////
   while (getID() == true)                                                 //di return oleh fungsi boolean getID dibawah karena mendapat return true
   { 
     if (tagID == MasterTag)                                               //jika tagID = MasterTag
     {
-      Serial.print("Pintu dibuka menggunakan RFID dengan UID : ");        //menampilkan tulisan di Serial Monitor
+      Serial.print("Absensi Berhasil! UID Terdaftar : ");                           //menampilkan tulisan di Serial Monitor
       Serial.println(tagID);                                              //menampilkan isi dari variabel tagID
       delay(2000);
       Serial.println();                                                   //membuat fungsi enter pada Serial Monitor
-      antares.add("PASS : Pintu dibuka menggunakan RFID dengan UID : ", tagID);  //menambahkan pada "wadah" antares untuk menampilkan tulisan di web antares
+      antares.add("PASS : Absensi Berhasil! UID Terdaftar :  ", tagID);             //menambahkan pada "wadah" antares untuk menampilkan tulisan di web antares
       antares.send(projectName, deviceName);                              //mengirimkan "wadah" ke antares untuk ditampilkan/diproses
     }
     else                                                                  //jika tagID != MasterTag
     {
-      Serial.print("UID tidak terdaftar : ");                             //menampilkan tulisan di Serial Monitor
+      Serial.print("Absensi Gagal! UID Tidak Terdaftar : ");                             //menampilkan tulisan di Serial Monitor
       Serial.println(tagID);                                              //menampilkan isi dari variabel tagID
       delay(1000);                                                        //delay 1s
       Serial.println();                                                   //membuat fungsi enter pada Serial Monitor
-      antares.add("DENIED : Pintu dibuka menggunakan UID yang salah : ", tagID);   //menambahkan pada "wadah" antares untuk menampilkan tulisan di web antares
+      antares.add("DENIED : Absensi Gagal! UID Tidak Terdaftar  ", tagID);   //menambahkan pada "wadah" antares untuk menampilkan tulisan di web antares
       antares.send(projectName, deviceName);                              //mengirimkan "wadah" ke antares untuk ditampilkan/diproses
     }
   }
